@@ -6,30 +6,29 @@ const getUsers = async (req, res) => {
     const users = await User.find();
     res.json(users);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
 
-// Crear un usuario
+// Crear usuario
 const createUser = async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
     res.status(201).json(user);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };
 
-// Actualizar un usuario existente (Update)
+// ✅ ACTUALIZAR POR ID
 const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const { name, email } = req.body;
-
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      id,
-      { name, email },
+      req.params.id,
+      req.body, // 👈 actualiza lo que envíes
       { new: true }
     );
 
@@ -39,16 +38,15 @@ const updateUser = async (req, res) => {
 
     res.json(updatedUser);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };
 
-// Eliminar un usuario (Delete)
+// ✅ ELIMINAR POR ID
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
 
     if (!deletedUser) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -56,6 +54,7 @@ const deleteUser = async (req, res) => {
 
     res.json({ message: 'Usuario eliminado correctamente' });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };

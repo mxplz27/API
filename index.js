@@ -11,7 +11,7 @@ const cors = require('cors');
 const connectDB = require('./Config/db');
 
 // Se importan las rutas relacionadas con usuarios
-const userRoutes = require('./Routes/user.routes');
+const userRoutes = require('./routes/user.routes');
 
 // Se configuran las variables de entorno
 dotenv.config();
